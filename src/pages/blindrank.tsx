@@ -1,7 +1,7 @@
 import { ReactNode, useEffect, useState } from "react";
 
 export default function Ranker() {
-  let names = ["one", "two", "three"];
+  const [names,setNames] = useState(["one", "two", "three"]);
   const [currentName, setCurrentName] = useState<string>("");
 
   useEffect(() => {
@@ -43,24 +43,28 @@ export default function Ranker() {
     },
   ]);
 
-  function updateName(index: number, newName: string) {
-    names = names.filter((name, i) => name !== currentName);
-    setRanks((prevRanks) =>
-      prevRanks.map((prevRank, i) => {
-        console.log(names);
-        setCurrentName(String(names[Math.floor(Math.random() * names.length)]));
-        return i === index ? { ...prevRank, name: newName } : prevRank;
-      }),
-    );
+  function updateName(index:number) {
+    if(names.length > 1){
+      setNames(names.filter((item, i) => i !== index));
+    } else {
+      setNames([])
+    }
+    const newRanks = ranks;
+    newRanks[index]!.name = currentName;
+    setRanks(newRanks);
+    setCurrentName(getRandomElement(names.filter((item, i) => i !== index)));
+  }
+
+  function getRandomElement(array: any[]) {
+    return array[Math.floor(Math.random() * array.length)];
   }
 
   function RankBlock({ rank, index }: { rank: Rank; index: number }) {
-    const [name, setName] = useState("");
     return (
       <div
         className={`${rank.color} flex aspect-square items-center justify-center`}
         onClick={() => {
-          updateName(index, String(currentName));
+          updateName(index);
         }}
       >
         {rank.name}
@@ -76,6 +80,13 @@ export default function Ranker() {
         ))}
       </div>
       <div className="text-center font-sans text-3xl">{currentName}</div>
+      <div className="flex justify-center">
+        [
+        {names.map((name)=>
+        <div className="mx-2">{name}</div>
+        )}
+        ]
+      </div>
     </>
   );
 }
