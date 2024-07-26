@@ -10,37 +10,33 @@ export default function Ranker() {
   }, []);
 
   type Rank = {
-    value: number;
-    color: string;
+    value: string;
     name: string;
   };
 
   const [ranks, setRanks] = useState<Rank[]>([
-    {
-      value: 1,
-      color: "bg-red-500",
-      name: "",
-    },
-    {
-      value: 2,
-      color: "bg-orange-500",
-      name: "",
-    },
-    {
-      value: 1,
-      color: "bg-yellow-500",
-      name: "",
-    },
-    {
-      value: 1,
-      color: "bg-green-500",
-      name: "",
-    },
-    {
-      value: 1,
-      color: "bg-blue-500",
-      name: "",
-    },
+    { value: "SP1", name: "" }, // Starter 1
+    { value: "SP2", name: "" }, // Starter 2
+    { value: "SP3", name: "" }, // Starter 3
+    { value: "SP4", name: "" }, // Starter 4
+    { value: "SP5", name: "" }, // Starter 5
+    { value: "RP1", name: "" }, // Reliever 1
+    { value: "RP2", name: "" }, // Reliever 2
+    { value: "RP3", name: "" }, // Reliever 3
+    { value: "RP4", name: "" }, // Reliever 4
+    { value: "RP5", name: "" }, // Reliever 5
+    { value: "RP6", name: "" }, // Reliever 6
+    { value: "RP7", name: "" }, // Reliever 7
+    { value: "CL", name: "" },  // Closer
+    { value: "C", name: "" },    // Catcher
+    { value: "1B", name: "" },   // First Base
+    { value: "2B", name: "" },   // Second Base
+    { value: "3B", name: "" },   // Third Base
+    { value: "SS", name: "" },   // Shortstop
+    { value: "LF", name: "" },   // Left Field
+    { value: "CF", name: "" },   // Center Field
+    { value: "RF", name: "" },   // Right Field
+    { value: "DH", name: "" },   // Designated Hitter
   ]);
 
   function updateName(index: number) {
@@ -63,19 +59,19 @@ export default function Ranker() {
   function RankBlock({ rank, index }: { rank: Rank; index: number }) {
     return (
       <div
-        className={`${rank.color} flex aspect-square items-center justify-center`}
+        className={`${rank.color} flex`}
         onClick={() => {
           updateName(index);
         }}
       >
-        {rank.name}
+        {rank.value}: {rank.name}
       </div>
     );
   }
 
   return (
     <>
-      <div className="grid w-full grid-cols-5 gap-5 p-5">
+      <div className="flex flex-col p-5">
         {ranks.map((rank: Rank, i: number) => (
           <RankBlock rank={rank} index={i} key={i} />
         ))}
