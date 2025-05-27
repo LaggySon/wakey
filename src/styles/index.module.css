@@ -1,0 +1,44 @@
+.rankBox{
+    /* width: 100%; */
+    .rank {
+        /* display: grid;
+        grid-template-rows: repeat(1fr,5);
+        margin: auto; */
+        display: flex;
+
+        .title {
+            padding:1rem;
+            border-radius: 0.5rem;
+            width: 3rem;
+            text-align: center;
+            transition: 500ms all;
+            &:hover {
+                scale:1.2;
+            }
+        }
+        .content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+    }
+
+}
+.nextToRank {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    .name {
+        font-size: 2rem;
+    }
+}
+.main {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 2px solid black;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin:1rem;
+}
