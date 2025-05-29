@@ -11,27 +11,22 @@ type Ranking = {
 export const getStaticProps = (async (context) => {
   const initialRankings: Ranking[] = [
     {
-      title: "1",
       content: "Merab Dvalishvili",
       image: "https://placehold.co/400x400?text=1",
     },
     {
-      title: "2",
       content: "Sean O'Malley",
       image: "https://placehold.co/400x400?text=2",
     },
     {
-      title: "3",
       content: "Aljamain Sterling",
       image: "https://placehold.co/400x400?text=3",
     },
     {
-      title: "4",
       content: "Cory Sandhagen",
       image: "https://placehold.co/400x400?text=4",
     },
     {
-      title: "5",
       content: "Petr Yan",
       image: "https://placehold.co/400x400?text=5",
     },
@@ -47,10 +42,12 @@ export default function Home({
   initialRankings,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   const [rankings, setRankings] = useState(initialRankings);
-  const [nextRank, setNextRank] = useState({});
+  const [nextRank, setNextRank] = useState<Ranking>();
 
   useEffect(() => {
-    setNextRank(initialRankings[Math.random() * initialRankings.length]);
+    console.log("hello world")
+    setNextRank(initialRankings[Math.floor(Math.random() * initialRankings.length)])
+    console.log(nextRank)
   });
 
   return (
@@ -65,8 +62,7 @@ export default function Home({
       </div>
       <div className={styles.nextToRank}>
         <div className={styles.rank} id={styles.next}>
-          <div className={styles.title}>{nextRank!.title}</div>
-          <div className={styles.content}>{nextRank!.content}</div>
+          <div className={styles.content}>{nextRank?.content||"loading..."}</div>
         </div>
       </div>
     </main>
