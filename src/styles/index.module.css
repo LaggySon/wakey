@@ -23,6 +23,11 @@
             justify-content: center;
             padding: 1rem;
         }
+        .image {
+            height: 3rem;
+            width: 3rem;
+            margin-block: auto;
+        }
     }
 
 }
@@ -32,8 +37,13 @@
     align-items: center;
     flex-direction: column;
     .name {
-        font-size: 2rem;
+        font-size: 4rem;
     }
+        .image {
+            height: 5rem;
+            width: 5rem;
+            margin-inline: auto;
+        }
     
 }
 .main {
