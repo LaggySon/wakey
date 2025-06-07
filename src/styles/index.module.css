@@ -1,4 +1,5 @@
 .rankBox{
+    cursor: pointer;
     /* width: 100%; */
     .rank {
         /* display: grid;
@@ -16,7 +17,7 @@
                 scale:1.2;
             }
         }
-        .content {
+        .name {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -33,6 +34,7 @@
     .name {
         font-size: 2rem;
     }
+    
 }
 .main {
     display: grid;

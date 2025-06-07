@@ -4,65 +4,89 @@ import styles from "../styles/index.module.css";
 
 type Ranking = {
   title: string;
-  content: string;
+  name: string;
+  image: string;
+};
+
+type Option = {
+  name: string;
   image: string;
 };
 
 export const getStaticProps = (async (context) => {
-  const initialRankings: Ranking[] = [
+  const options: Option[] = [
     {
-      content: "Merab Dvalishvili",
+      name: "Merab Dvalishvili",
       image: "https://placehold.co/400x400?text=1",
     },
     {
-      content: "Sean O'Malley",
+      name: "Sean O'Malley",
       image: "https://placehold.co/400x400?text=2",
     },
     {
-      content: "Aljamain Sterling",
+      name: "Aljamain Sterling",
       image: "https://placehold.co/400x400?text=3",
     },
     {
-      content: "Cory Sandhagen",
+      name: "Cory Sandhagen",
       image: "https://placehold.co/400x400?text=4",
     },
     {
-      content: "Petr Yan",
+      name: "Petr Yan",
       image: "https://placehold.co/400x400?text=5",
     },
   ];
   return {
-    props: { initialRankings },
+    props: { options },
   };
 }) satisfies GetStaticProps<{
-  initialRankings: Ranking[];
+  options: Option[];
 }>;
 
 export default function Home({
-  initialRankings,
+  options,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
-  const [rankings, setRankings] = useState(initialRankings);
-  const [nextRank, setNextRank] = useState<Ranking>();
+  const [ranks, setRanks] = useState(
+    options.map((option, index) => ({
+      title: index,
+      name: "",
+      image: "",
+    }))
+  );
+  const [nextRank, setNextRank] = useState<Option>();
 
   useEffect(() => {
-    console.log("hello world")
-    setNextRank(initialRankings[Math.floor(Math.random() * initialRankings.length)])
-    console.log(nextRank)
+    setNextRank(options[Math.floor(Math.random() * options.length)]);
   });
+
+  function rankOption(index: number, nextRank: Option): void {
+    if (!nextRank) return;
+    const nextRankIndex = options.findIndex((option) => option == nextRank);
+    console.log(nextRankIndex);
+    options.splice(nextRankIndex, 1);
+    console.log(options);
+    ranks[index]!.name = nextRank.name;
+    ranks[index]!.image = nextRank.image;
+    setNextRank(options[Math.floor(Math.random() * options.length)]);
+  }
 
   return (
     <main className={styles.main}>
       <div className={styles.rankBox}>
-        {rankings.map((ranking, index) => (
-          <div className={styles.rank} id={styles[index]}>
-            <div className={styles.title}>{ranking.title}</div>
-            <div className={styles.content}>{ranking.content}</div>
+        {ranks.map((rank, index) => (
+          <div
+            className={styles.rank}
+            onClick={() => rankOption(index, nextRank)}
+          >
+            <div className={styles.title}>{rank.title}</div>
+            <div className={styles.name}>{rank.name}</div>
+            <div className={styles.image}>{rank.image}</div>
           </div>
         ))}
       </div>
       <div className={styles.nextToRank}>
         <div className={styles.rank} id={styles.next}>
-          <div className={styles.content}>{nextRank?.content||"loading..."}</div>
+          <div className={styles.content}>{nextRank?.name || "DONE!!"}</div>
         </div>
       </div>
     </main>
