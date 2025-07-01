@@ -1,56 +1,65 @@
-.rankBox{
-    cursor: pointer;
-    /* width: 100%; */
-    .rank {
-        /* display: grid;
+.rankBox {
+  width: fit-content;
+  padding:10%;
+  .rank {
+    /* display: grid;
         grid-template-rows: repeat(1fr,5);
         margin: auto; */
-        display: flex;
-
-        .title {
-            padding:1rem;
-            border-radius: 0.5rem;
-            width: 3rem;
-            text-align: center;
-            transition: 500ms all;
-            &:hover {
-                scale:1.2;
-            }
-        }
-        .name {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem;
-        }
-        .image {
-            height: 3rem;
-            width: 3rem;
-            margin-block: auto;
-        }
+    display: flex;
+    /* outline:2px solid black; */
+    margin-block: 1rem;
+      border-radius: 0.5rem;
+    .title {
+      padding: 1rem;
+      border-radius: 0.5rem;
+      /* width: 3rem; */
+      text-align: center;
+      transition: 500ms all;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 3rem;
+      width: 6rem;
+      height:8rem;
+      &:hover {
+        scale: 0.8
+      }
+      cursor: pointer;
     }
-
+    .details{
+        display:flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    .name {
+     text-align: center;
+    }
+    .image {
+      height: 6rem;
+      width: fit-content;
+      margin-block: auto;
+    }}
+  }
 }
 .nextToRank {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  .name {
+    font-size: 4rem;
+    text-align: center;
+  }
+  .imageContainer {
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
-    .name {
-        font-size: 4rem;
-    }
-        .image {
-            height: 5rem;
-            width: 5rem;
-            margin-inline: auto;
-        }
-    
+  }
 }
 .main {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    border: 2px solid black;
-    border-radius: 0.5rem;
-    padding: 1rem;
-    margin:1rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin: 1rem;
 }

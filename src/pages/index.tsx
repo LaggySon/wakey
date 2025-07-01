@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { GetStaticProps, InferGetStaticPropsType } from "next";
 import styles from "../styles/index.module.css";
+// import { exportComponentAsPNG } from "react-component-export-image";
 
 type Ranking = {
   title: string;
@@ -18,47 +19,52 @@ export const getStaticProps = (async (context) => {
     {
       name: "Merab Dvalishvili",
       image:
-        "https://a.espncdn.com/combiner/i?img=/i/headshots/mma/players/full/3948572.png&w=400&h=400",
+        "https://a.espncdn.com/combiner/i?img=/i/headshots/mma/players/full/3948572.png",
     },
     {
       name: "Sean O'Malley",
       image:
-        "https://a.espncdn.com/combiner/i?img=/i/headshots/mma/players/full/4205093.png&w=400&h=400",
+        "https://a.espncdn.com/combiner/i?img=/i/headshots/mma/players/full/4205093.png",
     },
     {
       name: "Aljamain Sterling",
       image:
-        "https://a.espncdn.com/combiner/i?img=/i/headshots/mma/players/full/3031559.png&w=400&h=400",
+        "https://a.espncdn.com/combiner/i?img=/i/headshots/mma/players/full/3031559.png",
     },
     {
       name: "Cory Sandhagen",
       image:
-        "https://a.espncdn.com/combiner/i?img=/i/headshots/mma/players/full/4294504.png&w=400&h=400",
+        "https://a.espncdn.com/combiner/i?img=/i/headshots/mma/players/full/4294504.png",
     },
     {
       name: "Petr Yan",
       image:
-        "https://a.espncdn.com/combiner/i?img=/i/headshots/mma/players/full/4293517.png&w=400&h=400",
+        "https://a.espncdn.com/combiner/i?img=/i/headshots/mma/players/full/4293517.png",
     },
     {
       name: "Marlon Vera",
-      image: "https://static.ufcstats.com/images/marlon-vera.png",
+      image:
+        "https://a.espncdn.com/combiner/i?img=/i/headshots/mma/players/full/3155424.png",
     },
     {
       name: "Dominick Cruz",
-      image: "https://static.ufcstats.com/images/dominick-cruz.png",
+      image:
+        "https://a.espncdn.com/combiner/i?img=/i/headshots/mma/players/full/2335888.png",
     },
     {
       name: "Rob Font",
-      image: "https://static.ufcstats.com/images/rob-font.png",
+      image:
+        "https://a.espncdn.com/combiner/i?img=/i/headshots/mma/players/full/3090451.png",
     },
     {
       name: "Ricky Simon",
-      image: "https://static.ufcstats.com/images/ricky-simon.png",
+      image:
+        "https://a.espncdn.com/combiner/i?img=/i/headshots/mma/players/full/3922491.png",
     },
     {
       name: "Song Yadong",
-      image: "https://static.ufcstats.com/images/song-yadong.png",
+      image:
+        "https://a.espncdn.com/combiner/i?img=/i/headshots/mma/players/full/3151289.png",
     },
   ];
   return {
@@ -71,14 +77,16 @@ export const getStaticProps = (async (context) => {
 export default function Home({
   options,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
+  const numRanks = 5;
   const [ranks, setRanks] = useState(
-    Array.from({ length: 3 }, (_, index) => ({
+    Array.from({ length: numRanks }, (_, index) => ({
       title: index + 1,
       name: "",
       image: "",
     }))
   );
   const [nextRank, setNextRank] = useState<Option>();
+  const [numRanked, setNumRanked] = useState(0);
 
   useEffect(() => {
     setNextRank(options[Math.floor(Math.random() * options.length)]);
@@ -93,40 +101,63 @@ export default function Home({
     ranks[index]!.name = nextRank.name;
     ranks[index]!.image = nextRank.image;
     setNextRank(options[Math.floor(Math.random() * options.length)]);
+    setNumRanked(numRanked + 1);
   }
 
+  const rankBoxRef = useRef<HTMLDivElement>(null);
   return (
     <main className={styles.main}>
-      <div className={styles.rankBox}>
-        {ranks.map((rank, index) => {
-          // Generate a color in HSL space for a smooth gradient
-          const hue = Math.round((index / (ranks.length * 2)) * 360);
-          const backgroundColor = `hsl(${hue}, 70%, 60%)`;
-          return (
-            <div key={index} className={styles.rank}>
-              <div
-                onClick={() => rankOption(index, nextRank)}
-                className={styles.title}
-                style={{ backgroundColor }}
-              >
-                {rank.title}
+      <div>
+        <div className={styles.rankBox} ref={rankBoxRef}>
+          {ranks.map((rank, index) => {
+            // Generate a color in HSL space for a smooth gradient
+            const hue = Math.round((index / (ranks.length * 2)) * 360);
+            const backgroundColor = `hsl(${hue}, 70%, 60%)`;
+            return (
+              <div key={index} className={styles.rank}>
+                <div
+                  onClick={() => rankOption(index, nextRank)}
+                  className={styles.title}
+                  style={{ backgroundColor }}
+                >
+                  {rank.title}
+                </div>
+                <div className={styles.details}>
+                  {rank.image && (
+                    <img className={styles.image} src={rank.image} alt="" />
+                  )}
+                  <div className={styles.name}>{rank.name}</div>
+                </div>
               </div>
-              {rank.image && (
-                <img className={styles.image} src={rank.image} alt="" />
-              )}
-
-              <div className={styles.name}>{rank.name}</div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
       <div className={styles.nextToRank}>
-        <div className={styles.rank} id={styles.next}>
-          {nextRank?.image && (
-            <img className={styles.image} src={nextRank.image} alt="" />
-          )}
-          <div className={styles.name}>{nextRank?.name || "DONE!!"}</div>
-        </div>
+        {numRanked < numRanks ? (
+          <div className={styles.rank} id={styles.next}>
+            {nextRank?.image && (
+              <div className={styles.imageContainer}>
+                <img className={styles.image} src={nextRank.image} alt="" />
+              </div>
+            )}
+            <div className={styles.name}>{nextRank?.name || "DONE!!"}</div>
+          </div>
+        ) : (
+          <div className={styles.doneSteps}>
+            <h1>DONE!</h1>
+            <button
+              onClick={async () => {
+                const { exportComponentAsPNG } = await import(
+                  "react-component-export-image"
+                );
+                exportComponentAsPNG(rankBoxRef);
+              }}
+            >
+              Export as image!
+            </button>
+          </div>
+        )}
       </div>
     </main>
   );
