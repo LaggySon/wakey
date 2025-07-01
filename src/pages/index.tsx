@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { GetStaticProps, InferGetStaticPropsType } from "next";
 import styles from "../styles/index.module.css";
 // import { exportComponentAsPNG } from "react-component-export-image";
-
+/* eslint-disable @typescript-eslint/no-floating-promises */
 type Ranking = {
   title: string;
   name: string;
@@ -141,17 +141,19 @@ export default function Home({
                 <img className={styles.image} src={nextRank.image} alt="" />
               </div>
             )}
-            <div className={styles.name}>{nextRank?.name || "DONE!!"}</div>
+            <div className={styles.name}>{nextRank?.name ?? "DONE!!"}</div>
           </div>
         ) : (
           <div className={styles.doneSteps}>
             <h1>DONE!</h1>
             <button
-              onClick={async () => {
-                const { exportComponentAsPNG } = await import(
-                  "react-component-export-image"
-                );
-                exportComponentAsPNG(rankBoxRef);
+              onClick={() => {
+                void (async () => {
+                  const { exportComponentAsPNG } = await import(
+                    "react-component-export-image"
+                  );
+                  exportComponentAsPNG(rankBoxRef);
+                })().catch(console.error);
               }}
             >
               Export as image!
