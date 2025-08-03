@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { GetStaticProps, InferGetStaticPropsType } from "next";
 import styles from "../styles/index.module.css";
+import downloadjs from 'downloadjs';
+import html2canvas from "html2canvas";
 // import { exportComponentAsPNG } from "react-component-export-image";
 /* eslint-disable @typescript-eslint/no-floating-promises */
 type Ranking = {
@@ -93,6 +95,7 @@ export default function Home({
   });
 
   function rankOption(index: number, nextRank: Option | undefined): void {
+    if (numRanked >= numRanks) return;
     if (!nextRank) return;
     const nextRankIndex = options.findIndex((option) => option == nextRank);
     console.log(nextRankIndex);
@@ -107,7 +110,6 @@ export default function Home({
   const rankBoxRef = useRef<HTMLDivElement>(null);
   return (
     <main className={styles.main}>
-      <div>
         <div className={styles.rankBox} ref={rankBoxRef}>
           {ranks.map((rank, index) => {
             // Generate a color in HSL space for a smooth gradient
@@ -132,7 +134,6 @@ export default function Home({
             );
           })}
         </div>
-      </div>
       <div className={styles.nextToRank}>
         {numRanked < numRanks ? (
           <div className={styles.rank} id={styles.next}>
@@ -149,10 +150,20 @@ export default function Home({
             <button
               onClick={() => {
                 void (async () => {
-                  const { exportComponentAsPNG } = await import(
-                    "react-component-export-image"
-                  );
-                  exportComponentAsPNG(rankBoxRef);
+                  const rankBoxElement = document.querySelector<HTMLElement>('.'+styles.rankBox)
+                  if (!rankBoxElement) return;
+
+                  const copiedRankBoxElement = rankBoxElement.cloneNode(true) as HTMLElement
+                  copiedRankBoxElement.style.width = 'fit-content'
+
+                  document.body.append(copiedRankBoxElement)
+                  const canvas = await html2canvas(copiedRankBoxElement ?? document.body,
+                {
+                  useCORS: true
+                })
+                  copiedRankBoxElement.remove()
+                  const dataURL = canvas.toDataURL('image/png');
+                  downloadjs(dataURL,'rankings.png','image/png')
                 })().catch(console.error);
               }}
             >

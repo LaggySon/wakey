@@ -1,44 +1,41 @@
 .rankBox {
-  width: fit-content;
-  padding:10%;
+width: fit-content;
+display: flex;
+flex-direction: column;
+align-items: start;
   .rank {
-    /* display: grid;
-        grid-template-rows: repeat(1fr,5);
-        margin: auto; */
     display: flex;
-    /* outline:2px solid black; */
-    margin-block: 1rem;
-      border-radius: 0.5rem;
     .title {
       padding: 1rem;
-      border-radius: 0.5rem;
-      /* width: 3rem; */
+      /* border-radius: 0.5rem; */
       text-align: center;
-      transition: 500ms all;
+      transition: all;
       display: flex;
       justify-content: center;
       align-items: center;
       font-size: 3rem;
       width: 6rem;
-      height:8rem;
+      height: 8rem;
       &:hover {
-        scale: 0.8
+        border: 2px solid black;
       }
       cursor: pointer;
     }
-    .details{
-        display:flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-    .name {
-     text-align: center;
+    .details {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      .name {
+        text-align: center;
+      }
+      .image {
+        height: 6rem;
+        width: fit-content;
+        margin-block: auto;
+        aspect-ratio: 150/109;
+      }
     }
-    .image {
-      height: 6rem;
-      width: fit-content;
-      margin-block: auto;
-    }}
   }
 }
 .nextToRank {
@@ -46,20 +43,24 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  margin-inline: auto;
   .name {
-    font-size: 4rem;
+    font-size: 1rem;
     text-align: center;
   }
   .imageContainer {
     display: flex;
     justify-content: center;
     align-items: center;
+    aspect-ratio: 150/109;
+    img {
+      height: 6rem;
+    }
   }
 }
 .main {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  border-radius: 0.5rem;
-  padding: 1rem;
-  margin: 1rem;
+  display: flex;
+  /* flex-direction: row-reverse; */
+  justify-content: space-between;
+  flex-wrap: wrap;
 }
